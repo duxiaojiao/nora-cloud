@@ -9,6 +9,7 @@
         <module>nora-gateway</module>
         <module>nora-common</module>
         <module>nora-auth</module>
+        <module>nora-job</module>
     </modules>
 
 
