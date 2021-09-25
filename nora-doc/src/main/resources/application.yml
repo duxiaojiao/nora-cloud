@@ -1,0 +1,21 @@
+server:
+  port: 8003
+
+knife4j:
+  enableAggregation: true
+  nacos:
+    enable: true
+    serviceUrl: http://localhost:8848/nacos/
+#    routeAuth:
+#      enable: true
+#      username: test
+#      password: 12313
+    routes:
+      - name: 权限服务
+        serviceName: nora-auth
+        location: /v2/api-docs?group=default
+        servicePath: /
+      - name: job服务
+        serviceName: nora-job
+        location: v2/api-docs?group=default
+        servicePath: /
