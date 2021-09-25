@@ -1,2 +1,6 @@
 server:
   port: 8002
+
+logging:
+  level:
+    org.taylor.nora.common.feign: debug
