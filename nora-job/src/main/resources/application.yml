@@ -4,3 +4,12 @@ server:
 logging:
   level:
     org.taylor.nora.common.feign: debug
+
+feign:
+  sentinel:
+    enabled: true
+  client:
+    config:
+     default:
+       connectTimeout: 5000
+       readTimeout: 5000
