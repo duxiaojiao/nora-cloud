@@ -11,10 +11,11 @@ spring:
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
       globalcors:
         cors-configurations:
           '[/**]':
             allowCredentials: true
-            allowedOrigins: "*"
+            allowedOriginPatterns: "*"
             allowedMethods: "*"
             allowedHeaders: "*"
