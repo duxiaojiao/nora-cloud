@@ -9,10 +9,14 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.server.session.CookieWebSessionIdResolver;
+import org.springframework.web.server.session.WebSessionIdResolver;
 import org.taylor.nora.gateway.handler.CustomHttpBasicServerAuthenticationEntryPoint;
 import org.taylor.nora.gateway.handler.JsonServerAuthenticationFailureHandler;
 import org.taylor.nora.gateway.handler.JsonServerAuthenticationSuccessHandler;
 import org.taylor.nora.gateway.handler.JsonServerLogoutSuccessHandler;
+
+import java.time.Duration;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -21,7 +25,7 @@ public class SecurityConfig {
     @Autowired
     private JsonServerAuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
-    private JsonServerAuthenticationFailureHandler authenticationFaillHandler;
+    private JsonServerAuthenticationFailureHandler authenticationFailHandler;
     @Autowired
     private JsonServerLogoutSuccessHandler logoutSuccessHandler;
     @Autowired
@@ -51,7 +55,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .authenticationSuccessHandler(authenticationSuccessHandler) //认证成功
-                .authenticationFailureHandler(authenticationFaillHandler) //登陆验证失败
+                .authenticationFailureHandler(authenticationFailHandler) //登陆验证失败
                 .and().logout().logoutSuccessHandler(logoutSuccessHandler)
                 .and().exceptionHandling().authenticationEntryPoint(customHttpBasicServerAuthenticationEntryPoint)  //基于http的接口请求鉴权失败
                 .and() .csrf().disable();//必须支持跨域
@@ -74,6 +78,15 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return  NoOpPasswordEncoder.getInstance(); //默认
+    }
+
+    @Bean
+    public WebSessionIdResolver webSessionIdResolver() {
+        CookieWebSessionIdResolver resolver = new CookieWebSessionIdResolver();
+        // 重写定义 cookie 名字
+        resolver.setCookieName("GATEWAY-SESSION");
+        resolver.setCookieMaxAge(Duration.ofMinutes(60));
+        return resolver;
     }
 
 
