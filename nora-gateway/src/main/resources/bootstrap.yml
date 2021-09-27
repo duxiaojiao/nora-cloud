@@ -8,6 +8,8 @@ spring:
       discovery:
         server-addr: localhost:8848
     gateway:
+      default-filters:
+        - Session
       discovery:
         locator:
           enabled: true
